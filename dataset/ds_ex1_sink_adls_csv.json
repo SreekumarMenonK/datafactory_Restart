@@ -1,5 +1,5 @@
 {
-	"name": "ds_sink_adls_csv",
+	"name": "ds_ex1_sink_adls_csv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "is_adls",
