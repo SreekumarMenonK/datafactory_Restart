@@ -12,7 +12,10 @@
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobStorageLocation"
+				"type": "AzureBlobStorageLocation",
+				"fileName": "hack_data.csv",
+				"folderPath": "Exer/Ex1",
+				"container": "raw"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
