@@ -77,14 +77,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "ds_src_blb_csv",
+								"referenceName": "ds_ex1_src_blb_csv",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "ds_sink_adls_csv",
+								"referenceName": "ds_ex1_sink_adls_csv",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -97,12 +97,12 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_src_blb_csv')]",
-				"[concat(variables('factoryId'), '/datasets/ds_sink_adls_csv')]"
+				"[concat(variables('factoryId'), '/datasets/ds_ex1_src_blb_csv')]",
+				"[concat(variables('factoryId'), '/datasets/ds_ex1_sink_adls_csv')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_sink_adls_csv')]",
+			"name": "[concat(parameters('factoryName'), '/ds_ex1_sink_adls_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -169,7 +169,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_src_blb_csv')]",
+			"name": "[concat(parameters('factoryName'), '/ds_ex1_src_blb_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -262,6 +262,215 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pip_les2_copy_del_csv')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_ex1_src_blb_csv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_ex1_sink_adls_csv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_ex1_src_blb_csv')]",
+				"[concat(variables('factoryId'), '/datasets/ds_ex1_sink_adls_csv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_les2_sink_adls_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "is_adls",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Target"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": {
+							"value": "@concat('Exer/Les2/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
+							"type": "Expression"
+						},
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Session_Connection_Time",
+						"type": "String"
+					},
+					{
+						"name": "Bytes Transferred",
+						"type": "String"
+					},
+					{
+						"name": "Kali_Trace_Used",
+						"type": "String"
+					},
+					{
+						"name": "Servers_Corrupted",
+						"type": "String"
+					},
+					{
+						"name": "Pages_Corrupted",
+						"type": "String"
+					},
+					{
+						"name": "Location",
+						"type": "String"
+					},
+					{
+						"name": "WPM_Typing_Speed",
+						"type": "String"
+					},
+					{
+						"name": "hack",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/is_adls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_les2_src_blb_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "is_blb",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Source"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "hack_data.csv",
+						"folderPath": "Exer/Les2",
+						"container": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Session_Connection_Time",
+						"type": "String"
+					},
+					{
+						"name": "Bytes Transferred",
+						"type": "String"
+					},
+					{
+						"name": "Kali_Trace_Used",
+						"type": "String"
+					},
+					{
+						"name": "Servers_Corrupted",
+						"type": "String"
+					},
+					{
+						"name": "Pages_Corrupted",
+						"type": "String"
+					},
+					{
+						"name": "Location",
+						"type": "String"
+					},
+					{
+						"name": "WPM_Typing_Speed",
+						"type": "String"
+					},
+					{
+						"name": "hack",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/is_blb')]"
+			]
 		}
 	]
 }
