@@ -13,7 +13,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "hack_data.csv",
 				"folderPath": "Exer/Les2",
 				"container": "raw"
 			},
