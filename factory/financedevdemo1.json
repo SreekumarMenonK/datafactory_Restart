@@ -1,0 +1,9 @@
+{
+	"name": "financedevdemo1",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d4abcc45-1191-49f6-a745-ab43cf52def1",
+		"tenantId": "3518e739-8f8b-4d6f-b6e2-a5e2f7417c66"
+	}
+}
