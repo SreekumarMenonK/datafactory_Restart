@@ -70,6 +70,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_les2_3_src_blb_folderHier_mul_files",
+						"type": "DatasetReference"
+					},
 					"enableLogging": false,
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
