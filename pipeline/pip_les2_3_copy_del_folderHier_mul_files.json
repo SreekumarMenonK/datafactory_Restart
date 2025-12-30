@@ -64,8 +64,8 @@
 								},
 								"waitOnCompletion": true,
 								"parameters": {
-									"destinationFolder": "Exer/Ex2",
-									"sourceFolder": "Exer/Les2_3"
+									"destinationFolder": "Exer/Les2_3",
+									"sourceFolder": "Exer/Ex2"
 								}
 							}
 						}
