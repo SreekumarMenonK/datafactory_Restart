@@ -78,11 +78,11 @@
 		"parameters": {
 			"destinationFolder": {
 				"type": "string",
-				"defaultValue": "Exer/Les2_2"
+				"defaultValue": "Exer/Les2_3"
 			},
 			"sourceFolder": {
 				"type": "string",
-				"defaultValue": "Exer/Les2_1"
+				"defaultValue": "Exer/Ex2"
 			}
 		},
 		"folder": {
