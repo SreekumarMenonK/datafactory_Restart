@@ -590,6 +590,61 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_les2_3_sink_adls_folderHier_mul_files')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "is_adls",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Target"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": {
+							"value": "@concat('Exer/Les2_3/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
+							"type": "Expression"
+						},
+						"fileSystem": "bronze"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/is_adls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_les2_3_src_blb_folderHier_mul_files')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "is_blb",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Source"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "Exer/Les2_3",
+						"container": "raw"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/is_blb')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pip_ex1_copy_csv')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -910,11 +965,11 @@
 				"parameters": {
 					"destinationFolder": {
 						"type": "string",
-						"defaultValue": "Exer/Les2_2"
+						"defaultValue": "Exer/Les2_3"
 					},
 					"sourceFolder": {
 						"type": "string",
-						"defaultValue": "Exer/Les2_1"
+						"defaultValue": "Exer/Ex2"
 					}
 				},
 				"folder": {
