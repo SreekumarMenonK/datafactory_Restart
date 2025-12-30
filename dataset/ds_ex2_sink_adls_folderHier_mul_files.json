@@ -1,21 +1,23 @@
 {
-	"name": "ds_les2_src_blb_csv",
+	"name": "ds_ex2_sink_adls_folderHier_mul_files",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "is_blb",
+			"referenceName": "is_adls",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "Source"
+			"name": "Target"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobStorageLocation",
-				"fileName": "hack_data.csv",
-				"folderPath": "Exer/Les2",
-				"container": "raw"
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@concat('Exer/Ex1/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
+					"type": "Expression"
+				},
+				"fileSystem": "bronze"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

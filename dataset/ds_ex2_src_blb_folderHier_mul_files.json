@@ -1,5 +1,5 @@
 {
-	"name": "ds_les2_src_blb_csv",
+	"name": "ds_ex2_src_blb_folderHier_mul_files",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "is_blb",
@@ -13,8 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "hack_data.csv",
-				"folderPath": "Exer/Les2",
+				"folderPath": "Exer/Ex2",
 				"container": "raw"
 			},
 			"columnDelimiter": ",",
