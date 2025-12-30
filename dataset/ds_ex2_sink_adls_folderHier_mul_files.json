@@ -14,7 +14,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"folderPath": {
-					"value": "@concat('Exer/Ex1/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
+					"value": "@concat('Exer/Ex2/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
 					"type": "Expression"
 				},
 				"fileSystem": "bronze"
