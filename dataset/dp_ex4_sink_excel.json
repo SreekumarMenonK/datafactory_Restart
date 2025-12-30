@@ -1,0 +1,24 @@
+{
+	"name": "dp_ex4_sink_excel",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "is_adls",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Target"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Hack Template.xlsx",
+				"folderPath": "Exer/Ex4",
+				"fileSystem": "bronze"
+			},
+			"sheetIndex": 1
+		},
+		"schema": []
+	}
+}
