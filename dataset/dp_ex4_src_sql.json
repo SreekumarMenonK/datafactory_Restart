@@ -1,0 +1,52 @@
+{
+	"name": "dp_ex4_src_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Source"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Session_Connection_Time",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Bytes Transferred",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Kali_Trace_Used",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Servers_Corrupted",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Pages_Corrupted",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Location",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WPM_Typing_Speed",
+				"type": "nvarchar"
+			},
+			{
+				"name": "hack",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dev",
+			"table": "hack"
+		}
+	}
+}
