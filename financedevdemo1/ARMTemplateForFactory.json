@@ -318,7 +318,10 @@
 								"referenceName": "dp_helper_src_blb_folder_replicate",
 								"type": "DatasetReference",
 								"parameters": {
-									"sourceFolder": "Exer/Les2_1"
+									"sourceFolder": {
+										"value": "@pipeline().parameters.sourceFolder",
+										"type": "Expression"
+									}
 								}
 							}
 						],
@@ -327,7 +330,10 @@
 								"referenceName": "dp_helper_sink_blb_folder_replicate",
 								"type": "DatasetReference",
 								"parameters": {
-									"destinationFolder": "Exer/Les2_2"
+									"destinationFolder": {
+										"value": "@pipeline().parameters.destinationFolder",
+										"type": "Expression"
+									}
 								}
 							}
 						]
@@ -335,6 +341,16 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"destinationFolder": {
+						"type": "string",
+						"defaultValue": "Exer/Les2_2"
+					},
+					"sourceFolder": {
+						"type": "string",
+						"defaultValue": "Exer/Les2_1"
+					}
 				},
 				"folder": {
 					"name": "HELPER"
@@ -536,6 +552,138 @@
 								"enablePartitionDiscovery": false
 							}
 						}
+					},
+					{
+						"name": "If Condition1",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@contains(activity('Copy data1').output.errors[0].Message,'UserErrorSourceBlobNotExist')",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Execute Pipeline1",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pip_helper_blb_srcfolder_replicate",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"destinationFolder": "Exer/Les2_2",
+											"sourceFolder": "Exer/Les2_1"
+										}
+									}
+								},
+								{
+									"name": "Copy data1_copy1",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Execute Pipeline1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobStorageReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings",
+												"copyBehavior": "PreserveHierarchy"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_les2_2_src_blb_csv",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "ds_les2_2_sink_adls_json",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								},
+								{
+									"name": "Delete1_copy1",
+									"type": "Delete",
+									"dependsOn": [
+										{
+											"activity": "Copy data1_copy1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "ds_les2_2_src_blb_csv",
+											"type": "DatasetReference",
+											"parameters": {}
+										},
+										"enableLogging": false,
+										"storeSettings": {
+											"type": "AzureBlobStorageReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										}
+									}
+								}
+							]
+						}
 					}
 				],
 				"policy": {
@@ -545,7 +693,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_les2_2_src_blb_csv')]",
-				"[concat(variables('factoryId'), '/datasets/ds_les2_2_sink_adls_json')]"
+				"[concat(variables('factoryId'), '/datasets/ds_les2_2_sink_adls_json')]",
+				"[concat(variables('factoryId'), '/pipelines/pip_helper_blb_srcfolder_replicate')]"
 			]
 		},
 		{
@@ -988,34 +1137,35 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/is_adls')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/ds_les2_2_sink_adls_json')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"linkedServiceName": {
+					"referenceName": "is_adls",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Target"
+				},
 				"annotations": [],
-				"type": "AzureBlobFS",
+				"type": "Json",
 				"typeProperties": {
-					"url": "[parameters('is_adls_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('is_adls_accountKey')]"
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "hack.json",
+						"folderPath": {
+							"value": "@concat('Exer/Les2_2/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
+							"type": "Expression"
+						},
+						"fileSystem": "bronze"
 					}
-				}
+				},
+				"schema": {}
 			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/is_blb')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('is_blb_connectionString')]"
-				}
-			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/is_adls')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_les2_2_src_blb_csv')]",
@@ -1083,35 +1233,34 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_les2_2_sink_adls_json')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/is_adls')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "is_adls",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Target"
-				},
 				"annotations": [],
-				"type": "Json",
+				"type": "AzureBlobFS",
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "hack.json",
-						"folderPath": {
-							"value": "@concat('Exer/Les2_2/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
-							"type": "Expression"
-						},
-						"fileSystem": "bronze"
+					"url": "[parameters('is_adls_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('is_adls_accountKey')]"
 					}
-				},
-				"schema": {}
+				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/is_adls')]"
-			]
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/is_blb')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('is_blb_connectionString')]"
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }
