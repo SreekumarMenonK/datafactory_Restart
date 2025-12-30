@@ -1,0 +1,20 @@
+{
+	"name": "ds_les2_3_src_blb_folderHier_mul_files",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "is_blb",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Source"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "Exer/Les2_3"
+			}
+		}
+	}
+}
