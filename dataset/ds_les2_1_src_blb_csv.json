@@ -14,7 +14,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "hack_data.csv",
-				"folderPath": "Exer/Les2",
+				"folderPath": "Exer/Les2_1",
 				"container": "raw"
 			},
 			"columnDelimiter": ",",

@@ -15,7 +15,7 @@
 				"type": "AzureBlobFSLocation",
 				"fileName": "hack.json",
 				"folderPath": {
-					"value": "@concat('Exer/Les2/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
+					"value": "@concat('Exer/Les2_1/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
 					"type": "Expression"
 				},
 				"fileSystem": "bronze"

@@ -15,8 +15,58 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"enableStaging": false
-				}
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFileName": "*",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings",
+							"copyBehavior": "PreserveHierarchy"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "dp_helper_src_blb_folder_replicate",
+						"type": "DatasetReference",
+						"parameters": {
+							"sourceFolder": "Exer/Les2_1"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dp_helper_sink_blb_folder_replicate",
+						"type": "DatasetReference",
+						"parameters": {
+							"destinationFolder": "Exer/Backup/Les2_1"
+						}
+					}
+				]
 			}
 		],
 		"folder": {
