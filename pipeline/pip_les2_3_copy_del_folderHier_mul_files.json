@@ -73,7 +73,7 @@
 				}
 			},
 			{
-				"name": "Copy data1_copy2",
+				"name": "Copy data",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -127,11 +127,11 @@
 				]
 			},
 			{
-				"name": "Delete1_copy2",
+				"name": "Delete",
 				"type": "Delete",
 				"dependsOn": [
 					{
-						"activity": "Copy data1_copy2",
+						"activity": "Copy data",
 						"dependencyConditions": [
 							"Succeeded"
 						]
