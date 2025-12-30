@@ -1,5 +1,5 @@
 {
-	"name": "pip1_ex2_copy_folderHier_mul_files",
+	"name": "pip2_ex2_copy_folderHier_mul_files",
 	"properties": {
 		"activities": [
 			{
@@ -20,6 +20,7 @@
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": true,
+							"wildcardFolderPath": "Exer/Ex2/csv",
 							"wildcardFileName": "*",
 							"enablePartitionDiscovery": false
 						},
