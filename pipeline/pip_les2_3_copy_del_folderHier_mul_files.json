@@ -37,7 +37,8 @@
 							"type": "JsonWriteSettings"
 						}
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true
 				},
 				"inputs": [
 					{
