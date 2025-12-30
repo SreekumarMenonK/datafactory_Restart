@@ -102,7 +102,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pip_ex2_copy_folderHier_mul_files')]",
+			"name": "[concat(parameters('factoryName'), '/pip_ex2_1_copy_folderHier_mul_files')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -181,7 +181,173 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pip_les2_copy_del_csv')]",
+			"name": "[concat(parameters('factoryName'), '/pip_ex2_2_copy_folderHier_mul_files')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "Exer/Ex2/csv",
+									"wildcardFileName": "*",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "PreserveHierarchy"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_ex2_src_blb_folderHier_mul_files",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_ex2_sink_adls_folderHier_mul_files",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_ex2_src_blb_folderHier_mul_files')]",
+				"[concat(variables('factoryId'), '/datasets/ds_ex2_sink_adls_folderHier_mul_files')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pip_helper_blb_srcfolder_replicate')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "PreserveHierarchy"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "dp_helper_src_blb_folder_replicate",
+								"type": "DatasetReference",
+								"parameters": {
+									"sourceFolder": "Exer/Les2_1"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "dp_helper_sink_blb_folder_replicate",
+								"type": "DatasetReference",
+								"parameters": {
+									"destinationFolder": "Exer/Backup/Les2_1"
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "HELPER"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/dp_helper_src_blb_folder_replicate')]",
+				"[concat(variables('factoryId'), '/datasets/dp_helper_sink_blb_folder_replicate')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pip_les2_1_copy_del_csv')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -224,18 +390,51 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "ds_les2_src_blb_csv",
+								"referenceName": "ds_les2_1_src_blb_csv",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "ds_les2_sink_adls_json",
+								"referenceName": "ds_les2_1_sink_adls_json",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Delete1",
+						"type": "Delete",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ds_les2_1_src_blb_csv",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"enableLogging": false,
+							"storeSettings": {
+								"type": "AzureBlobStorageReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							}
+						}
 					}
 				],
 				"policy": {
@@ -244,8 +443,189 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_les2_src_blb_csv')]",
-				"[concat(variables('factoryId'), '/datasets/ds_les2_sink_adls_json')]"
+				"[concat(variables('factoryId'), '/datasets/ds_les2_1_src_blb_csv')]",
+				"[concat(variables('factoryId'), '/datasets/ds_les2_1_sink_adls_json')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pip_les2_2_copy_del_folderHier_mul_files')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "PreserveHierarchy"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_les2_1_src_blb_csv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_les2_1_sink_adls_json",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Delete1",
+						"type": "Delete",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ds_les2_1_src_blb_csv",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"enableLogging": false,
+							"storeSettings": {
+								"type": "AzureBlobStorageReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_les2_1_src_blb_csv')]",
+				"[concat(variables('factoryId'), '/datasets/ds_les2_1_sink_adls_json')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dp_helper_sink_blb_folder_replicate')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "is_blb",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"destinationFolder": {
+						"type": "string",
+						"defaultValue": "Exer/Les1_1"
+					}
+				},
+				"folder": {
+					"name": "HELPER"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().destinationFolder",
+							"type": "Expression"
+						},
+						"container": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/is_blb')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dp_helper_src_blb_folder_replicate')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "is_blb",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"sourceFolder": {
+						"type": "String",
+						"defaultValue": "Exer/Ex2"
+					}
+				},
+				"folder": {
+					"name": "HELPER"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().sourceFolder",
+							"type": "Expression"
+						},
+						"container": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/is_blb')]"
 			]
 		},
 		{
@@ -512,7 +892,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_les2_sink_adls_json')]",
+			"name": "[concat(parameters('factoryName'), '/ds_les2_1_sink_adls_json')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -530,7 +910,7 @@
 						"type": "AzureBlobFSLocation",
 						"fileName": "hack.json",
 						"folderPath": {
-							"value": "@concat('Exer/Les2/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
+							"value": "@concat('Exer/Les2_1/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
 							"type": "Expression"
 						},
 						"fileSystem": "bronze"
@@ -543,7 +923,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_les2_src_blb_csv')]",
+			"name": "[concat(parameters('factoryName'), '/ds_les2_1_src_blb_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -560,7 +940,7 @@
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": "hack_data.csv",
-						"folderPath": "Exer/Les2",
+						"folderPath": "Exer/Les2_1",
 						"container": "raw"
 					},
 					"columnDelimiter": ",",
