@@ -97,7 +97,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@contains(activity('Copy data1').output,'UserErrorSourceBlobNotExist')",
+						"value": "@contains(activity('Copy data1').output.errors[0].Message,'UserErrorSourceBlobNotExist')",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
