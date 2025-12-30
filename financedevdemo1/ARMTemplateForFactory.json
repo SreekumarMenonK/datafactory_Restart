@@ -327,7 +327,7 @@
 								"referenceName": "dp_helper_sink_blb_folder_replicate",
 								"type": "DatasetReference",
 								"parameters": {
-									"destinationFolder": "Exer/Backup/Les2_1"
+									"destinationFolder": "Exer/Les2_2"
 								}
 							}
 						]
@@ -448,7 +448,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pip_les2_2_copy_del_folderHier_mul_files')]",
+			"name": "[concat(parameters('factoryName'), '/pip_les2_2_copy_del_csv')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -491,14 +491,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "ds_les2_1_src_blb_csv",
+								"referenceName": "ds_les2_2_src_blb_csv",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "ds_les2_1_sink_adls_json",
+								"referenceName": "ds_les2_2_sink_adls_json",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -525,7 +525,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataset": {
-								"referenceName": "ds_les2_1_src_blb_csv",
+								"referenceName": "ds_les2_2_src_blb_csv",
 								"type": "DatasetReference",
 								"parameters": {}
 							},
@@ -544,8 +544,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_les2_1_src_blb_csv')]",
-				"[concat(variables('factoryId'), '/datasets/ds_les2_1_sink_adls_json')]"
+				"[concat(variables('factoryId'), '/datasets/ds_les2_2_src_blb_csv')]",
+				"[concat(variables('factoryId'), '/datasets/ds_les2_2_sink_adls_json')]"
 			]
 		},
 		{
@@ -1016,6 +1016,102 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_les2_2_src_blb_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "is_blb",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Source"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "hack_data.csv",
+						"folderPath": "Exer/Les2_2",
+						"container": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Session_Connection_Time",
+						"type": "String"
+					},
+					{
+						"name": "Bytes Transferred",
+						"type": "String"
+					},
+					{
+						"name": "Kali_Trace_Used",
+						"type": "String"
+					},
+					{
+						"name": "Servers_Corrupted",
+						"type": "String"
+					},
+					{
+						"name": "Pages_Corrupted",
+						"type": "String"
+					},
+					{
+						"name": "Location",
+						"type": "String"
+					},
+					{
+						"name": "WPM_Typing_Speed",
+						"type": "String"
+					},
+					{
+						"name": "hack",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/is_blb')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_les2_2_sink_adls_json')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "is_adls",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Target"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "hack.json",
+						"folderPath": {
+							"value": "@concat('Exer/Les2_2/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
+							"type": "Expression"
+						},
+						"fileSystem": "bronze"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/is_adls')]"
+			]
 		}
 	]
 }
