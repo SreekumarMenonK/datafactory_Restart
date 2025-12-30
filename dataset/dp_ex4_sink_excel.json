@@ -11,13 +11,13 @@
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
+			"sheetName": "Sheet1",
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "Hack Template.xlsx",
 				"folderPath": "Exer/Ex4",
 				"fileSystem": "bronze"
-			},
-			"sheetIndex": 1
+			}
 		},
 		"schema": []
 	}
