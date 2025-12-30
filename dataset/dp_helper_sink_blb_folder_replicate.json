@@ -1,0 +1,35 @@
+{
+	"name": "dp_helper_sink_blb_folder_replicate",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "is_blb",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"destinationFolder": {
+				"type": "string",
+				"defaultValue": "Exer/Les1_1"
+			}
+		},
+		"folder": {
+			"name": "HELPER"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": {
+					"value": "@dataset().destinationFolder",
+					"type": "Expression"
+				},
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

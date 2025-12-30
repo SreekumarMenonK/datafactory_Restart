@@ -1,5 +1,5 @@
 {
-	"name": "pip2_les2_copy_del_folderHier_mul_files",
+	"name": "pip_les2_2_copy_del_folderHier_mul_files",
 	"properties": {
 		"activities": [
 			{
@@ -40,13 +40,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_les2_src_blb_csv",
+						"referenceName": "ds_les2_1_src_blb_csv",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_les2_sink_adls_json",
+						"referenceName": "ds_les2_1_sink_adls_json",
 						"type": "DatasetReference"
 					}
 				]
@@ -72,7 +72,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "ds_les2_src_blb_csv",
+						"referenceName": "ds_les2_1_src_blb_csv",
 						"type": "DatasetReference"
 					},
 					"enableLogging": false,

@@ -1,5 +1,5 @@
 {
-	"name": "ds_les2_src_blb_csv",
+	"name": "ds_les2_1_src_blb_csv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "is_blb",

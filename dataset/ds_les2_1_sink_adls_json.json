@@ -1,5 +1,5 @@
 {
-	"name": "ds_les2_sink_adls_json",
+	"name": "ds_les2_1_sink_adls_json",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "is_adls",
