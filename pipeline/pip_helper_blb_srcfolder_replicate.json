@@ -78,7 +78,7 @@
 		"parameters": {
 			"destinationFolder": {
 				"type": "string",
-				"defaultValue": "Exer/Les2_3"
+				"defaultValue": "Exer/Les2_4"
 			},
 			"sourceFolder": {
 				"type": "string",

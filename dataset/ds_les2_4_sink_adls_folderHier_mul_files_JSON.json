@@ -1,0 +1,25 @@
+{
+	"name": "ds_les2_4_sink_adls_folderHier_mul_files_JSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "is_adls",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Target"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@concat('Exer/Les2_4/',formatDateTime(utcNow(), 'MMddyyyyThhmmss'),'UTC')",
+					"type": "Expression"
+				},
+				"fileSystem": "bronze"
+			}
+		},
+		"schema": {}
+	}
+}
