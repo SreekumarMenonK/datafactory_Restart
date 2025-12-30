@@ -1,0 +1,60 @@
+{
+	"name": "ds_les2_2_src_blb_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "is_blb",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Source"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "hack_data.csv",
+				"folderPath": "Exer/Les2_2",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Session_Connection_Time",
+				"type": "String"
+			},
+			{
+				"name": "Bytes Transferred",
+				"type": "String"
+			},
+			{
+				"name": "Kali_Trace_Used",
+				"type": "String"
+			},
+			{
+				"name": "Servers_Corrupted",
+				"type": "String"
+			},
+			{
+				"name": "Pages_Corrupted",
+				"type": "String"
+			},
+			{
+				"name": "Location",
+				"type": "String"
+			},
+			{
+				"name": "WPM_Typing_Speed",
+				"type": "String"
+			},
+			{
+				"name": "hack",
+				"type": "String"
+			}
+		]
+	}
+}

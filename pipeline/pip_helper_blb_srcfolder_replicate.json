@@ -63,7 +63,7 @@
 						"referenceName": "dp_helper_sink_blb_folder_replicate",
 						"type": "DatasetReference",
 						"parameters": {
-							"destinationFolder": "Exer/Backup/Les2_1"
+							"destinationFolder": "Exer/Les2_2"
 						}
 					}
 				]
