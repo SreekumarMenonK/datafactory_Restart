@@ -20,7 +20,6 @@
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": true,
-							"wildcardFileName": "*",
 							"deleteFilesAfterCompletion": false
 						},
 						"formatSettings": {
@@ -85,8 +84,6 @@
 			{
 				"name": "If Condition1",
 				"type": "IfCondition",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -143,29 +140,37 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "DelimitedTextSource",
+									"type": "BinarySource",
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"wildcardFileName": "*",
-										"enablePartitionDiscovery": false
+										"deleteFilesAfterCompletion": false
 									},
 									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
+										"type": "BinaryReadSettings"
 									}
 								},
 								"sink": {
-									"type": "JsonSink",
+									"type": "BinarySink",
 									"storeSettings": {
 										"type": "AzureBlobFSWriteSettings",
 										"copyBehavior": "PreserveHierarchy"
-									},
-									"formatSettings": {
-										"type": "JsonWriteSettings"
 									}
 								},
 								"enableStaging": false
-							}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_les2_3_src_blb_folderHier_mul_files",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_les2_3_sink_adls_folderHier_mul_files",
+									"type": "DatasetReference"
+								}
+							]
 						},
 						{
 							"name": "Delete1_copy1",
@@ -187,9 +192,13 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
+								"dataset": {
+									"referenceName": "ds_les2_3_src_blb_folderHier_mul_files",
+									"type": "DatasetReference"
+								},
 								"enableLogging": false,
 								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
+									"type": "AzureBlobStorageReadSettings",
 									"recursive": true,
 									"enablePartitionDiscovery": false
 								}
