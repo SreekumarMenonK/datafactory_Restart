@@ -17,13 +17,15 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT \n    Session_Connection_Time, \n    [Bytes Transferred] AS Bytes_Transferred, \n    Kali_Trace_Used, \n    Servers_Corrupted, \n    Pages_Corrupted, \n    Location, \n    WPM_Typing_Speed, \n    hack\nFROM [dev].[hack]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "ParquetSink",
 						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "PreserveHierarchy"
 						},
 						"formatSettings": {
 							"type": "ParquetWriteSettings"
