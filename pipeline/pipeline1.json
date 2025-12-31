@@ -20,6 +20,11 @@
 				}
 			}
 		],
+		"variables": {
+			"placeHolder": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
