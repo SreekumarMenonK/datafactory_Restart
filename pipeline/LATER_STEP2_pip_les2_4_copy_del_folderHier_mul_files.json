@@ -1,0 +1,35 @@
+{
+	"name": "LATER_STEP2_pip_les2_4_copy_del_folderHier_mul_files",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LATER_STEP1_pip_les2_4_copy_del_folderHier_mul_files",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"pip_parm_subFolder": {
+							"value": "@pipeline().parameters.pip_parm_subFolder",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"pip_parm_subFolder": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}

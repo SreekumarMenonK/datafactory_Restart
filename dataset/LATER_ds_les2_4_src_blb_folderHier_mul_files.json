@@ -5,6 +5,14 @@
 			"referenceName": "is_blb",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"subFolder": {
+				"type": "string"
+			},
+			"subFolderFileName": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "Source"
 		},
@@ -13,7 +21,14 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "Exer/Les2_4",
+				"fileName": {
+					"value": "@dataset().subFolderFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().subFolder",
+					"type": "Expression"
+				},
 				"container": "raw"
 			},
 			"columnDelimiter": ",",

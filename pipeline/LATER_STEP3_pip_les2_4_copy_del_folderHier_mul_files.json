@@ -1,0 +1,163 @@
+{
+	"name": "LATER_STEP3_pip_les2_4_copy_del_folderHier_mul_files",
+	"properties": {
+		"activities": [
+			{
+				"name": "Switch1",
+				"type": "Switch",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@last(array(split(pipeline().parameters.pip_parm_fileName,'.')))",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "json",
+							"activities": [
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobStorageReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "LATER_ds_les2_4_src_blb_folderHier_mul_files",
+											"type": "DatasetReference",
+											"parameters": {
+												"subFolder": {
+													"value": "@pipeline().parameters.pip_parm_subFolder",
+													"type": "Expression"
+												},
+												"subFolderFileName": {
+													"value": "@pipeline().parameters.pip_parm_fileName",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "LATER_ds_les2_4_sink_adls_folderHier_mul_files_JSON",
+											"type": "DatasetReference"
+										}
+									]
+								}
+							]
+						}
+					],
+					"defaultActivities": [
+						{
+							"name": "Copy data1_copy1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "LATER_ds_les2_4_src_blb_folderHier_mul_files",
+									"type": "DatasetReference",
+									"parameters": {
+										"subFolder": {
+											"value": "@pipeline().parameters.pip_parm_subFolder",
+											"type": "Expression"
+										},
+										"subFolderFileName": {
+											"value": "@pipeline().parameters.pip_parm_fileName",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "LATER_ds_les2_4_sink_adls_folderHier_mul_files_CSV",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"pip_parm_subFolder": {
+				"type": "string"
+			},
+			"pip_parm_fileName": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}
