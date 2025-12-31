@@ -1,0 +1,25 @@
+{
+	"name": "dp_ex6_src_blb_excel",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "is_blb",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Source"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "Exer/Ex6",
+				"container": "raw"
+			},
+			"sheetIndex": 0,
+			"range": "",
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	}
+}

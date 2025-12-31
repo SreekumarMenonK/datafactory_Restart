@@ -1,0 +1,19 @@
+{
+	"name": "dp_ex6_sink_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Target"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "",
+			"table": "FSI-2023-DOWNLOAD"
+		}
+	}
+}

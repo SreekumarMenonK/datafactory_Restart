@@ -1,5 +1,5 @@
 {
-	"name": "dp_ex4_sink_excel",
+	"name": "dp_ex4_sink_adsl_excel",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "is_adls",

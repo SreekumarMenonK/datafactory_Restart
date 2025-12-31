@@ -1,5 +1,5 @@
 {
-	"name": "pip_ex5_copy_sql_parquet",
+	"name": "pip_ex7_copy_excel_to_csv",
 	"properties": {
 		"activities": [
 			{
@@ -16,19 +16,24 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT \n    Session_Connection_Time, \n    [Bytes Transferred] AS Bytes_Transferred, \n    Kali_Trace_Used, \n    Servers_Corrupted, \n    Pages_Corrupted, \n    Location, \n    WPM_Typing_Speed, \n    hack\nFROM [dev].[hack]",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
+						"type": "ExcelSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFileName": "*",
+							"enablePartitionDiscovery": false
+						}
 					},
 					"sink": {
-						"type": "ParquetSink",
+						"type": "DelimitedTextSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings",
 							"copyBehavior": "PreserveHierarchy"
 						},
 						"formatSettings": {
-							"type": "ParquetWriteSettings"
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
 						}
 					},
 					"enableStaging": false,
@@ -43,13 +48,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "dp_ex4_src_sql",
+						"referenceName": "dp_ex7_src_blb_excel",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "dp_ex5_sink_adsl_parquet",
+						"referenceName": "ds_ex7_sink_adls_csv",
 						"type": "DatasetReference"
 					}
 				]

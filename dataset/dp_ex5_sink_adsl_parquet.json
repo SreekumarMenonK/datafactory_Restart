@@ -1,5 +1,5 @@
 {
-	"name": "dp_ex5_sink_parquet",
+	"name": "dp_ex5_sink_adsl_parquet",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "is_adls",
