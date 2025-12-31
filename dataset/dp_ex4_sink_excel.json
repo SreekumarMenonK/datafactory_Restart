@@ -17,7 +17,9 @@
 				"fileName": "Hack Template.xlsx",
 				"folderPath": "Exer/Ex4",
 				"fileSystem": "bronze"
-			}
+			},
+			"range": "A1",
+			"firstRowAsHeader": true
 		},
 		"schema": []
 	}
