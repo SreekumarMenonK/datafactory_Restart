@@ -1,6 +1,30 @@
 {
 	"name": "pip_ex4_copy_sql_excel_NOTWORKING",
 	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "placeHolder",
+					"value": {
+						"value": "@concat('','')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"placeHolder": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
