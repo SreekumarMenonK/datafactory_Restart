@@ -1,0 +1,23 @@
+{
+	"name": "dp_ex5_sink_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "is_adls",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Target"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "Exer/Ex5",
+				"fileSystem": "bronze"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
