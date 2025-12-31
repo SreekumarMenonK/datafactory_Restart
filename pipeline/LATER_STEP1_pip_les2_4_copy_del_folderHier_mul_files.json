@@ -22,6 +22,10 @@
 							"subFolder": {
 								"value": "@pipeline().parameters.pip_parm_subFolder",
 								"type": "Expression"
+							},
+							"subFolderFileName": {
+								"value": "@concat('','')",
+								"type": "Expression"
 							}
 						}
 					},
