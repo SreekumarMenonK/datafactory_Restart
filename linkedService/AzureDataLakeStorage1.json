@@ -1,0 +1,23 @@
+{
+	"name": "AzureDataLakeStorage1",
+	"properties": {
+		"parameters": {
+			"accname": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://adlsfinancestaggingdev.dfs.core.windows.net/",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "aks",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "adls"
+			}
+		}
+	}
+}
