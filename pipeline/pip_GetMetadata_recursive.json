@@ -1,0 +1,145 @@
+{
+	"name": "pip_GetMetadata_recursive",
+	"properties": {
+		"activities": [
+			{
+				"name": "Until1",
+				"type": "Until",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(length(variables('Queue')), 0)",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Switch1",
+							"type": "Switch",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"on": {
+									"value": "@variables('Queue')[0].type",
+									"type": "Expression"
+								},
+								"cases": [
+									{
+										"value": "Path",
+										"activities": [
+											{
+												"name": "Set variable1",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "CurrentFolderPath",
+													"value": {
+														"value": "@variables('Queue')[0].name",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Get Metadata1",
+												"type": "GetMetadata",
+												"dependsOn": [
+													{
+														"activity": "Set variable1",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"dataset": {
+														"referenceName": "ds_src_GetMetadata_Recursive",
+														"type": "DatasetReference"
+													},
+													"fieldList": [
+														"childItems"
+													],
+													"storeSettings": {
+														"type": "AzureBlobStorageReadSettings",
+														"enablePartitionDiscovery": false
+													},
+													"formatSettings": {
+														"type": "DelimitedTextReadSettings"
+													}
+												}
+											},
+											{
+												"name": "Set variable2",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Get Metadata1",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "_tmpQueue",
+													"value": {
+														"value": "@union(skip(variables('Queue'), 1), activity('Get Metadata1').output.childItems)",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									},
+									{
+										"value": "Folder"
+									}
+								]
+							}
+						}
+					],
+					"timeout": "0.12:00:00"
+				}
+			}
+		],
+		"variables": {
+			"Queue": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"name": "raw/Exer/Get_Metadata_Recursive",
+						"type": "Path"
+					}
+				]
+			},
+			"FilePaths": {
+				"type": "Array"
+			},
+			"CurrentFolderPath": {
+				"type": "String"
+			},
+			"_tmpQueue": {
+				"type": "Array"
+			}
+		},
+		"folder": {
+			"name": "Get Metadata Recursive"
+		},
+		"annotations": []
+	}
+}
