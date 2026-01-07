@@ -5,6 +5,12 @@
 			"referenceName": "is_blb",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"FolderPath": {
+				"type": "string",
+				"defaultValue": "Exer/Get_Metadata_Recursive"
+			}
+		},
 		"folder": {
 			"name": "Get Metadata Recursive"
 		},
@@ -13,7 +19,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "Exer/Get_Metadata_Recursive",
+				"folderPath": {
+					"value": "@dataset().FolderPath",
+					"type": "Expression"
+				},
 				"container": "raw"
 			},
 			"columnDelimiter": ",",
