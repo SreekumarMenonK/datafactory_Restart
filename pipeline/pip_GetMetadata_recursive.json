@@ -66,7 +66,13 @@
 												"typeProperties": {
 													"dataset": {
 														"referenceName": "ds_src_GetMetadata_Recursive",
-														"type": "DatasetReference"
+														"type": "DatasetReference",
+														"parameters": {
+															"FolderPath": {
+																"value": "@variables('CurrentFolderPath')",
+																"type": "Expression"
+															}
+														}
 													},
 													"fieldList": [
 														"childItems"
@@ -103,11 +109,54 @@
 														"type": "Expression"
 													}
 												}
+											},
+											{
+												"name": "Set variable3",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Set variable2",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "Queue",
+													"value": {
+														"value": "@variables('_tmpQueue')",
+														"type": "Expression"
+													}
+												}
 											}
 										]
 									},
 									{
-										"value": "Folder"
+										"value": "Folder",
+										"activities": [
+											{
+												"name": "Set variable4",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "_tmpQueue",
+													"value": {
+														"value": "@union(\n  skip(variables('Queue'), 1),\n    array(\n    json(\n      concat(\n        '{\"name\": \"', \n        variables('CurrentFolderPath'), '/', variables('Queue')[0].name, \n        '\", \"type\": \"Path\"}'\n      )\n    )\n  )\n)",
+														"type": "Expression"
+													}
+												}
+											}
+										]
 									}
 								]
 							}
