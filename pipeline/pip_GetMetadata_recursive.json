@@ -5,7 +5,14 @@
 			{
 				"name": "Until1",
 				"type": "Until",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable8",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
@@ -155,8 +162,95 @@
 														"type": "Expression"
 													}
 												}
+											},
+											{
+												"name": "Set variable5",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Set variable4",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "Queue",
+													"value": {
+														"value": "@variables('_tmpQueue')",
+														"type": "Expression"
+													}
+												}
 											}
 										]
+									}
+								],
+								"defaultActivities": [
+									{
+										"name": "Append variable1",
+										"type": "AppendVariable",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "FilePaths",
+											"value": {
+												"value": "@concat(variables('CurrentFolderPath'), '/', variables('Queue')[0].name)",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "Set variable6",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "Append variable1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "_tmpQueue",
+											"value": {
+												"value": "@skip(variables('Queue'), 1)",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "Set variable7",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "Set variable6",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "Queue",
+											"value": {
+												"value": "@variables('_tmpQueue')",
+												"type": "Expression"
+											}
+										}
 									}
 								]
 							}
@@ -164,8 +258,31 @@
 					],
 					"timeout": "0.12:00:00"
 				}
+			},
+			{
+				"name": "Set variable8",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Queue",
+					"value": {
+						"value": "@array(\n    json(\n        concat(\n            '{\"name\": \"', \n            pipeline().parameters.RootFolder, \n            '\", \"type\": \"Path\"}'\n        )\n    )\n)",
+						"type": "Expression"
+					}
+				}
 			}
 		],
+		"parameters": {
+			"RootFolder": {
+				"type": "string",
+				"defaultValue": "Exer/Get_Metadata_Recursive"
+			}
+		},
 		"variables": {
 			"Queue": {
 				"type": "Array",
